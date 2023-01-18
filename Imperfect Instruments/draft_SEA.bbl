@@ -1,0 +1,33 @@
+\ifx\undefined\bysame
+\newcommand{\bysame}{\leavevmode\hbox to\leftmargin{\hrulefill\,\,}}
+\fi
+\begin{thebibliography}{xx}
+
+\harvarditem[Langford et al.]{Langford, Schwertman and Owens}{2001}{Langford}
+{\bf Langford, Eric, Neil Schwertman, and Margaret Owens}, ``Is the Property of
+  Being Positively Correlated Transitive?,'' {\it American Statistician},
+  November 2001, {\it 55} (4), 322--325.
+
+\harvarditem[Lipovetsky]{Lipovetsky}{2002}{Lipovetsky2002}
+{\bf Lipovetsky, Stan}, ``Langford, E., Schwertman, N., and Owens, M.(2001),
+  "Is the Property of Being Positively Correlated Transitive?", The American
+  Statistician, 55, 322-325: Comment by Lipovetsky,'' {\it American
+  Statistician}, 2002, pp.~341--342.
+
+\harvarditem[Lipovetsky and Conklin]{Lipovetsky and
+  Conklin}{2004}{Lipovetsky2004}
+{\bf \bysame{} and Michael~W. Conklin}, ``Enhance-Synergism and Supression
+  Effects in Multiple Regression,'' {\it International Journal of Mathematical
+  Education in Science \& Technology}, 2004, {\it 35} (3), 391--402.
+
+\harvarditem[Mauro]{Mauro}{1990}{Mauro}
+{\bf Mauro, Robert}, ``Understanding L.O.V.E. (Left Out Variables Error): A
+  Method for Estimating the Effects of Omitted Variables,'' {\it Pyschological
+  Bulletin}, 1990, {\it 108} (2), 314--329.
+
+\harvarditem[Nevo and Rosen]{Nevo and Rosen}{2012}{Nevo}
+{\bf Nevo, Aviv and Adam~M. Rosen}, ``Identification with Imperfect
+  Instruments,'' {\it The Review of Economics and Statistics}, August 2012,
+  {\it 94} (3), 659--671.
+
+\end{thebibliography}

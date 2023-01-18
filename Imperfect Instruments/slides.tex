@@ -1,0 +1,590 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{beamer}
+\usepackage{amsmath}               
+\newtheorem{theo}{Theorem}
+\newtheorem{coro}{Corollary}
+\usetheme{Warsaw}
+%\usecolortheme{crane}
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[Intransitivity in Correlations]{Tightening the Two-Sided Bounds of Nevo and Rosen when Instruments are Weak:}
+\subtitle{An Application of the Property of Transitivity in Correlations}
+	\author[S\o rensen Wiseman]
+		{Todd S\o rensen \\ University of Nevada and IZA \\
+		\medskip
+		Nathan Wiseman \\ University of Nevada}
+	\institute{Konstanz}
+	\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{DGP}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{DGP}
+\textbf{DGP} \\ \medskip \pause
+
+Consider the following data generating process: \\
+
+\begin{equation*}
+y=x\beta+u
+\end{equation*}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{OLS}
+\textbf{OLS} \\ \medskip  \pause
+
+If $x$ is correlated with $u$, of course OLS will be biased: \pause
+
+\begin{eqnarray*}
+plim[\beta_{OLS}]&=&plim[(x'x)^{-1}(x'y)] \\ \pause
+&=&plim[(x'x)^{-1}(x'(x\beta+u))] \\ \pause
+&=&(x'x)^{-1}(x'x)\beta+plim[(x'x)^{-1}(x'u)] \\ \pause
+&=&\beta+\frac{\sigma_{xu}}{\sigma_x^2} \pause
+\end{eqnarray*}
+
+And the asymptotic bias will be \pause
+
+\begin{equation*}
+\beta_{OLS}-\beta=\frac{\sigma_{xu}}{\sigma_x^2} 
+\end{equation*}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{IV}
+\textbf{IV} \\ \medskip  \pause
+
+One solution is to find some $z$ s.t. $\rho_{xz}\neq0$ and use IV \pause
+
+\begin{equation*}
+\beta_{IV}=(z'x)^{-1}(z'y) \pause
+\end{equation*}
+
+We typically would assume that $\rho_{zu}=0$ and move on, \\ \medskip \pause but here we will think of IV causing problems as well when this fails:
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{IV}
+\textbf{IV} \\ \medskip  \pause
+
+\begin{eqnarray*}
+plim[\beta_{IV}]&=&plim[(z'x)^{-1}(z'y)] \\ \pause
+&=&plim[(z'x)^{-1}(z'(x\beta+u))] \\  \pause
+&=&(z'x)^{-1}(z'x)\beta+plim(z'x)^{-1}(z'u) \\  \pause
+&=&\beta+\frac{\sigma_{zu}}{\sigma_{xz}}  \pause
+\end{eqnarray*}
+
+And the asymptotic bias will be \pause
+
+\begin{equation*}
+\beta_{IV}-\beta=\frac{\sigma_{zu}}{\sigma_{xz}}
+\end{equation*}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Bias}
+
+\begin{eqnarray*}
+\beta_{OLS}-\beta&=&\frac{\sigma_{xu}}{\sigma_x^2} \\
+\beta_{IV}-\beta&=&\frac{\sigma_{zu}}{\sigma_{xz}} \pause
+\end{eqnarray*}
+
+\textbf{4 Cases}: \pause Assume $\rho_{xu}\rho_{zu}>0$ \\ \pause (will always hold as we can redefine $z$ as $z=-w$). \pause
+
+
+\begin{enumerate}
+  \item $\rho_{xu}>0$, $\rho_{zu}>0$, $\rho_{xz}>0$: \pause OLS is biased upward, IV is biased upward.  \pause
+  \item $\rho_{xu}>0$, $\rho_{zu}>0$, $\rho_{xz}<0$: \pause OLS is biased upward, IV is biased downwards.  \pause
+  \item $\rho_{xu}<0$, $\rho_{zu}<0$, $\rho_{xz}>0:$ \pause OLS is biased downward, IV is biased downwards.  \pause
+  \item $\rho_{xu}<0$, $\rho_{zu}<0$, $\rho_{xz}<0:$ \pause OLS is biased downward, IV is biased upward.
+\end{enumerate}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Bounding}
+\textbf{Bounding} \\ \medskip \pause
+
+Above biases informs us as to how OLS and IV provide bounds: \\ \pause
+
+\begin{eqnarray}
+  &\beta&<min\{\beta_{OLS},\beta_{IV}\} \\ \pause 
+  \beta_{IV}<&\beta&<\beta_{OLS}  \\ \pause 
+  max\{\beta_{OLS},\beta_{IV}\}<&\beta& \\ \pause
+  \beta_{OLS}<&\beta&<\beta_{IV}
+\end{eqnarray}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Nevo and Rosen}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{New IV} 
+\textbf{New IV} \\ \medskip \pause
+
+Nevo and Rosen expand on this with a new instrument: \pause
+
+\begin{equation*}
+V(\lambda)=\sigma_{x}z-\lambda\sigma_{z}x \pause
+\end{equation*}
+
+\begin{itemize}
+\item Bias disappears completely when $\lambda=\lambda^*=\frac{\rho_{zu}}{\rho_{xu}}$ \pause
+\item This term is unknown \pause
+\item NR take limiting case $\lambda=1$: your IV is no worse than X itself \pause
+\item Even in this case, the IV ``V(1)'' improves upon OLS
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{New Bounds}
+\textbf{New Bounds: One of the Two Bounds is Improved Upon} \\ \medskip \pause
+
+\setcounter{equation}{0}
+\begin{eqnarray}
+     &\beta&<min\{\beta_{IV}^V,\beta_{IV}^Z\} \\  \pause
+     \beta_{IV}^Z<&\beta&<\beta_{IV}^V \\ \pause
+     max\{\beta_{IV}^V,\beta_{IV}^Z\}<&\beta& \\ \pause
+     \beta_{IV}^V<&\beta&<\beta_{IV}^Z
+\end{eqnarray}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{New Bounds}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Contribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Our Contribution}
+\textbf{We Improve Upon these Bounds Further} \\ \medskip \pause
+
+\begin{itemize}
+  \item We make a complementary contribution in the cases of two sided bounds (2 and 4) \pause
+  \item We provided a new bound that will in some cases improve upon IV Z \pause
+  \item We do this by leveraging the assumptions in this case to introduce a new concept to the econometrics literature: \pause \pause
+  \item \textbf{Transitivity in Correlations} \pause
+  \item Our simulations show that this leads to improved bound and as the IV becomes weaker and more correlated with the unobservables
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Transitivity in Correlations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\textbf{Transitivity in Correlations} \\ \bigskip \pause 
+
+Two publications in the Statistics Literature establish this property. \\ \medskip \pause
+
+We use these properties, which require no additional assumptions, to derive a new set of bounds. \\ \medskip 
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\frametitle{Intuition}
+\textbf{Intuition} \\ \bigskip \pause 
+
+\textbf{Consider Case 2} \pause
+\begin{itemize}
+  \item $\rho_{xu}>0$, $\rho_{zu}>0$, $\rho_{xz}<0$ \pause
+  \item $u$ is positively correlated with $x$ \pause 
+  \item $x$ is negatively correlated with $z$ \pause 
+  \item \emph{transitivity} leads us to believe that $u$ will be negatively correlated with $z$ \pause
+  \item But $\rho_{zu}>0$ in this case \pause
+  \item So this is a case of \emph{intransitive correlations}
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\frametitle{Intuition}
+\textbf{Intuition} \\ \bigskip \pause 
+
+\textbf{Consider Case 4}
+\begin{itemize}
+  \item $\rho_{xu}<0$, $\rho_{zu}<0$, $\rho_{xz}<0:$ \pause 
+  \item $u$ is negatively correlated with $x$ \pause 
+  \item $x$ is negatively correlated with $z$ \pause 
+  \item \emph{transitivity} leads us to believe that $u$ will be positively correlated with $z$ \pause 
+  \item But $\rho_{zu}<0$ in this case \pause 
+  \item So this is also a case of \emph{intransitive correlations} 
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\framesubtitle{Theoretical Background}
+\textbf{Theorem 1} \\ \bigskip \pause
+
+Langford et al (2001, \emph{American Statistician}) introduces the concept of transitivity in correlations: \bigskip \pause
+
+\begin{theo} \label{theo:trans_1}
+A sufficient condition for positive correlation between $A$ and $C$ ($\rho_{AC}>0$), when $\rho_{AB}\rho_{BC}>0$ can be stated as follows: $\rho_{AB}^2+\rho_{BC}^2>1 \implies \rho_{AC}>0$.  \pause
+\end{theo}
+
+Or: if two $\rho$s are big enough, the 3rd one must go the way we expected!
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\framesubtitle{Theoretical Background}
+\textbf{Corollary 1} \\ \bigskip \pause
+
+We provide the following corollary of \emph{intransitivity in correlations}: \bigskip \pause
+
+\begin{coro} \label{coro:trans_1}
+A necessary condition for negative correlation between $A$ and $C$ ($\rho_{AC}<0$), when $\rho_{AB}\rho_{BC}>0$, is as follows: $\rho_{AC} <0 \implies \rho_{AB}^2+\rho_{BC}^2 < 1$. \pause
+\end{coro}
+
+Or: if the 3rd one didn't go the way we expected, the first two $\rho$s must not have been big enough!
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\framesubtitle{Theoretical Background}
+\textbf{Theorem 2} \\ \bigskip \pause
+
+Lepovotsky and Conklin (2004) extend this research with a second theorem \pause
+
+\begin{theo} \label{theo:trans_2}
+A sufficient condition for negative correlation between $A$ and $C$ ($\rho_{AC}<0$), when $\rho_{AB}\rho_{BC}<0$, can be stated as follows: $\rho_{AB}^2+\rho_{BC}^2>1 \implies \rho_{AC}<0 $ \pause
+\end{theo}
+
+Same intuition, just in the ``negative'' case.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\framesubtitle{Theoretical Background}
+\textbf{Corollary 2} \\ \bigskip \pause
+
+We again provide a corollary: \bigskip \pause 
+
+\begin{coro} \label{coro:trans_2}
+A necessary condition for positive correlation between $A$ and $C$ ($\rho_{AC}>0$), when $\rho_{AB}\rho_{BC}<0$, is as follows: $\rho_{AC} >0 \implies \rho_{AB}^2+\rho_{BC}^2 < 1$. 
+\end{coro}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\framesubtitle{Application}
+\textbf{Application} \\ \bigskip \pause
+
+To Case 4: \pause
+
+\begin{itemize}
+  \item $\rho_{xu}<0$, $\rho_{zu}<0$, $\rho_{xz}<0$ \pause
+  \item $\rho_{xz}\rho_{xu}>0$ \pause
+  \item So we use Corrolary 1  \pause
+  \item Correspondence A=Z, B=X, C=U tells us that  \pause
+  \item $\rho_{zu}<0$ \pause implies $\rho_{xz}^2+\rho_{xu}^2<1$ \pause
+  \item Because we would expect $\rho_{zu}>0$, so there must not be ``\emph{too much}'' information in the other two $\rho$ terms.
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Transitivity in Correlations}
+\framesubtitle{Application}
+\textbf{Application} \\ \bigskip \pause
+
+To Case 2: \pause
+
+\begin{itemize}
+  \item $\rho_{xu}>0$, $\rho_{zu}>0$, $\rho_{xz}<0$ \pause
+  \item $\rho_{xz}\rho_{xu}<0$ \pause
+  \item So we use Corollary 2 \pause
+  \item Correspondence  A=Z, B=X, C=U tells us that  \pause
+  \item $\rho_{zu}<0$ \pause implies $\rho_{xz}^2+\rho_{xu}^2<1$  \pause
+  \item Because we would expect $\rho_{zu}<0$, so there must not be ``\emph{too much}'' information in the other two $\rho$ terms.
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Derivation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Derivation of New Bounds}
+\textbf{Derivation of New Bounds } \\ \bigskip \pause
+
+In both cases, we work from \pause
+
+\begin{equation*}
+\rho_{xu}^2+\rho_{xz}^2<1 \label{eqn:cond_3} \pause
+\end{equation*}
+
+Solving a quadratic inequality for $\rho_{xu}$ \pause
+
+\begin{eqnarray*}
+\rho_{xu}^2 &<&{1-\rho_{xz}^2} \nonumber \\ \pause
+\frac{\sigma_{xu}}{\sigma_x \sigma_u}=\rho_{xu}&\in& \pm \sqrt{1-\rho_{xz}^2} \nonumber \\
+\end{eqnarray*}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Derivation of New Bounds}
+\textbf{Derivation of New Bounds } \\ \bigskip \pause
+
+Multiplying by $\frac{\sigma_u}{\sigma_x}$ \pause
+
+\begin{eqnarray}
+\frac{\sigma_{xu}}{\sigma_x^2}=(\beta_{OLS}-\beta)&\in& \pm \frac{\sigma_u}{\sigma_x} \sqrt{1-\rho_{xz}^2} \nonumber 
+\end{eqnarray}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Derivation of New Bounds}
+\textbf{Derivation of New Bounds } \\ \bigskip \pause
+
+Shifting the set by $-\beta_{OLS}$ and then transforming it by a negative we have two new bounds:  \pause
+\begin{eqnarray*}
+-\beta&\in& \pm \frac{\sigma_u}{\sigma_x} \sqrt{1-\rho_{xz}^2}-\beta_{OLS} \nonumber \\ \pause
+\beta&\in&\beta_{OLS}\pm \frac{\sigma_u}{\sigma_x}\sqrt{1-\rho_{xz}^2} \\ \pause
+\beta&\in&(\beta_{L},\beta_{U}) \label{eqn:bounds}
+\end{eqnarray*}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Evaluating New Bounds}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Evaluating New Bounds}
+\textbf{Evaluating New Bounds} \\ \bigskip \pause
+
+In Case 2 (4), OLS was an upper (lower) bound dominated by NR's new bound. \\ \pause
+So in Case 2, we are interested in $\beta_{L}$, and in Case 4 in $\beta_{H}$. \\ \pause
+We can then express the bounds as  \\ \pause
+
+\begin{eqnarray*}
+     &\beta&<min\{\beta_{IV}^V,\beta_{IV}^Z\} \\  \pause
+     max(\beta_{IV}^Z,\beta_L)<&\beta&<\beta_{IV}^V \\ \pause
+     max\{\beta_{IV}^V,\beta_{IV}^Z\}<&\beta& \\ \pause
+     \beta_{IV}^V<&\beta&<min(\beta_{IV}^Z,\beta_H)
+\end{eqnarray*}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Evaluating New Bounds}
+\textbf{Evaluating New Bounds} \\ \bigskip \pause
+
+\begin{itemize}
+  \item Let's focus on Case 2. \\ \pause
+  \item We might do better then IV: \\ \pause
+  \item This bound will be tighter as $\rho_{xz}$ become smaller \pause
+  \item And also as everything goes to hell with regular IV ($\rho_{xz}$ smaller, $\rho_{zu}$ bigger) \pause
+  \item We now turn to simulations
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Simulations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Simulation}
+\framesubtitle{DGP}
+\textbf{DGP} \\ \bigskip \pause
+
+\begin{itemize}
+     \item $y=.5x+u$ \pause
+     \item $x=e_1-\alpha_1\times c+\alpha_2 \times u$ \pause
+     \item $z=e_2-\alpha_3\times c+\alpha_4 \times u$ \pause
+     \item $\alpha_1$, $\alpha_3$ are uniform(0,2) \pause
+     \item $\alpha_2$, $\alpha_4$ are uniform(0,1) \pause
+     \item Other terms are N(0,1)
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Simulation}
+\framesubtitle{Simulations}
+\textbf{Simulations} \\ \bigskip \pause
+
+\begin{itemize}
+     \item Dataset: N=1,000,000 \pause
+     \item 100,000 Simulations \pause
+     \item Tables Below \pause
+     \item Columns: midpoint of $\lambda=\frac{\rho_{zu}}{\rho_{xu}}$ bin \pause
+     \item Rows: midpoint of $\rho_{xz}$ bin
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Simulation}
+\framesubtitle{Counts}
+\textbf{Number of Iterations in Each Bin} \\ \pause
+\footnotesize{
+\input{count}
+}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Simulation}
+\framesubtitle{IV}
+\textbf{IV} \\ \pause
+\footnotesize{
+\input{iv}
+}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Simulation}
+\framesubtitle{Our Lower Bound}
+\textbf{Our Lower Bound} \\ \pause
+\footnotesize{
+\input{lower}
+}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Simulation}
+\framesubtitle{Share with Improvement}
+\textbf{Share with Improvement} \\ \pause
+\footnotesize{
+\input{better}
+}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Conclusions}
+\framesubtitle{Summary of Earlier Work}
+\textbf{Earlier Work} \\ \bigskip \pause
+
+\begin{itemize}
+  \item When we assume direction of bias, IV and OLS provide us with bounds \pause
+  \item These are two sided in two of four cases \pause
+  \item Nevo and Rosen improve either lower or upper bound in this case
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Conclusions}
+\framesubtitle{Our Contribution}
+\textbf{Our Contribution} \\ \bigskip \pause
+
+\begin{itemize}
+  \item We introduce the concept of \emph{transitivity in correlations} to the econometrics literature for the first time \pause
+  \item We show that the two sided bounds represent \emph{intransitive correlations} \pause
+  \item This provides us with new information \pause
+  \item The new information provides us with new bounds, which may improve upon the bound NR did not improve upon \pause
+  \item Improvement most likely when IV is more invalid or weaker \pause
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+
