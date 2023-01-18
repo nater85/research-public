@@ -1,0 +1,364 @@
+\documentclass{article}
+\usepackage{amsmath}               
+\usepackage{amssymb}
+%\usepackage{fullpage}
+\newtheorem{asu}{Assumption}
+\newtheorem{theo}{Theorem}
+\newtheorem{case}{Case}
+\newtheorem{coro}{Corollary}
+\newtheorem{prop}{Proposition}
+\newtheorem{claim}{Claim}
+\usepackage{fancyhdr}
+\usepackage{natbib}
+\pagestyle{fancy}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fancyhead{}
+\fancyhead[L]{Heterogeneous Selection Bias}
+\begin{document}
+\title{Heterogeneous Selection Bias}
+\author{Nathan Wiseman \\Department of Economics,\\University of Nevada, Reno}
+\maketitle
+\begin{abstract}
+The \citet{heckman1979} selection bias model has been applied in many fields to remove bias associated with nonrandom samples.  Unfortunately, the model is known to be inconsistent when there is heteroskedasticity or non-normal disturbances.  While some semi-parametric estimators have been proposed, practical applications have been scarce.  This is likely due to the complexity of their estimation and the inability to verify their identifying assumptions. This paper explores the implications of different sources of heteroskedasticity and more extreme heterogeneity.  A recent parametric approach by \citet{reichert2014} is considerably more simple to estimate than semi-parametric alternatives, and the Monte Carlo simulations in this paper suggest it is able to provide consistent estimates under a wide variety of data generating processes.  This estimator is shown to lead to more intuitive estimates when applied to data on miles driven in order to compare the "rebound effect" of cars and trucks.
+
+\end{abstract}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The \citet{heckman1979} model has been used to deal with all sorts of selection bias and endogenous binary variables.  It's main limitation is that it relies on the assumptions of homoskedasticity and bivariate normality between the error terms in the outcome and selection equations.  The goal of this paper is to use Monte Carlo simulations to investigate the sensitivity of the \citet{heckman1979} model to heteroskedasticity relative to a recently proposed estimator by \citet{reichert2014} that is meant to accommodate additional heterogeneity.  
+
+Over the years, the \citet{heckman1979} model has been critiqued in a variety of ways (see \citet{puhani2000} for a review of Monte Carlo studies):
+
+\begin{itemize}
+    \item Sensitivity to Distributional Assumptions
+    \item Multicollinearity of Correction Term in Two-Stage Implementations
+    \item Minimal Improvement Over Two-Part Models
+    \item Sensitivity to the Exclusion Restriction
+\end{itemize}
+
+Less attention has been paid to the implications of heteroskedasticity \citep{vella1998}.  Most studies considering heteroskedasticity have been in the context of censored regressions, looking at the inconsistency of the Tobit Model \citep{hurd1979, arabmazar1981, brown1983, brannas1989}.  In the context of Tobit models for censored data, it has been suggested that violations of heteroskedasticity may lead to more bias than violations of normality \citep{hurd1979}.  \citet{fernandez1999} is the only known study to explicitly consider heteroskedasticity in sample selection models. They compared Heckman's two-step estimator to the \citet{ahn1993} semiparametric estimator, and found that when heteroskedasticity is present in the selection mechanism the Heckman estimator performed better, with asymptotic bias being linear in the covariance between the error terms in the selection and outcome equations. 
+
+Recent approaches to deal with heteroskedasticity in selection models include \citet{donald1995}, \citet{schaffner2002}, \citet{chen2003}, \citet{adkins2004}, and \citet{reichert2014}. With the exception of \citet{schaffner2002} and \citet{reichert2014}, all previously proposed estimators have relied on semi-parametric approaches to provide consistent estimates in selection bias models with heteroskedasticity.  
+
+\citet{donald1995} provides a two-step method that maintains the joint normality assumption and relies on a nonparametric first stage to account for heteroskedasticity of unknown form. While the method led to improved estimates, some bias remained due to the difficulty in choosing how many terms to include in the nonparametric stage. A similar approach pioneered by \citet{chen2003} uses a three step procedure to address conditional heteroskedasticity in both the selection and outcome equations without making distributional assumptions.  The first two steps are nonparametric estimators of the propensity score and interquartile range.  The propensity score is obtained using the Nadarya-Watson kernal density estimator, but other nonparametric techniques (e.g., \citet{klein1993}) could have been used.  The interquartile range is estimated using quantile regression \citep{koenker1978}.  The third stage uses an established relationship between the propensity score and the interquartile range to form normalized correction terms to be used in a partially linear regression.  While the technique is shown to lead to consistent estimates, it still requires appropriately specifiying smoothing parameters, which can be somewhat arbitrary.
+
+\citet{schaffner2002} considers two potential methods to account for heteroskedasticity in the selection equation, which stems from the fact that there are often unobserved variables that interact with observed covariates to determine the probability of selection.  The first method utilizes a heteroskedastic probit for the selection equation, in which the equation for the conditional mean of the latent utility is normalized by dividing by the conditional standard deviation. A second approach recognizes that the resulting equation is highly nonlinear, and approximates the function using a polynomial with interaction terms while maintaining the homoskedasticity assumption.  The results suggest that both methods lead to improved estimates, as evidenced by non-nested likelihood ratio tests \citep{vuong1989} on empirical data.  The limitations of the study are that because it compares the approach on a single dataset it does not provide any theoretical justification for the efficacy or superiority of either of the approaches in general.  It is possible that the improved fit, as evidenced by the LR tests, could be the result of overfitting, a common issue when using polynomial regression.   
+
+An unpublished manuscript from \citet{adkins2004} considers interacting polynomials similar to those considered in \citet{schaffner2002} with the selectivity correction term to account for heteroskedasticity.  The resulting estimates are shown to have lower bias in most cases, but do not appear to be consistent estimators.
+
+Most recently, \citet{reichert2014} consider a selection model in which the level of the outcome variable influences the probability of selection differently for different groups.  While their focus is not on heteroskedasticity, their model formulation leads to two-step and maximum likelihood estimators that control for heteroskedasticity in the selection equation resulting from the selection mechanism.  It is suggested that their proposed two-step estimator can accommodate additional forms of heterogeneity, although they do not elaborate on what forms these are.  
+
+This paper will use Monte Carlo simulations to test existing parametric sample selection models under a variety of sources of heterogeneity and alternative selection mechanisms.  Results suggest that the bias of the estimators increases faster when there is heteroskedasticity in the outcome equation than when it is present in the selection equation.  Results also suggest that the two-step estimator suggested by \citet{reichert2014}, though sometimes inefficient, provides consistent estimates regardless of whether heteroskedasticity stems from the outcome or selection equation (or both), while the \citet{heckman1979} and \citet{schaffner2002} estimators are extremely biased when conditional heteroskedasticity is present in the outcome equation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theoretical Selection Mechanisms}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Three different model specifications were used in comparing the estimators, corresponding to the probability of selection not depending on the outcome, the probability of selection depending on the outcome homogeneously, and the probability of selection and depending on the outcome heterogeneously.  The traditional selection model, in which the probability of selection does not depend on the outcome, is estimated as follows:
+
+\begin{eqnarray*}
+Y_i&=&(\beta'X_i + \epsilon)\cdot I(Y^*_i>0) \\
+Y^*_i&=&\gamma'Z_i + u_i
+\end{eqnarray*}
+
+Where $I(Y^*_i>0)$ is an indicator function telling whether the latent variable, $Y^*_i$, is large enough such that the individual is in the selected population for which the continuous outcome, $Y_i$, is observed.  The vector $X_i$ contains covariates that explain the level of the outcome and the vector $Z_i$ contains at least one additional covariate that does not directly impact the outcome (the exclusion restriction).  
+
+Traditionally $Z_i$ also contains all of the elements of $X_i$, which (if the outcome equation is correctly specified) ensures there is no misspecification in the selection equation if the level of the outcome influences the probablity of selection. Consider the following data generating process:
+
+\begin{eqnarray*}
+Y_i&=&(\beta'X_i + \epsilon_i)\cdot I(Y^*_i>0) \\
+Y^*_i&=&\gamma'Z_i +\tau Y_i + u_i
+\end{eqnarray*}
+
+ 
+\noindent If $Y_i$ is replaced by the RHS of the first equation,
+
+\begin{eqnarray*}
+Y^*_i&=&\gamma'Z_i +\tau(\beta'X_i + \epsilon_i) + u_i \\
+     &=&\gamma'Z_i +\tau\beta'X_i + (\tau\epsilon_i + u_i)
+\end{eqnarray*}
+
+\noindent Let $V_i = \tau\epsilon_i + u_i$ be the corresponding error term.  Its variance can be calculated as:
+
+\begin{eqnarray*}
+\sigma_{V}^2=\tau^2\sigma_{\epsilon}^2 +\sigma_{u}^2 + 2\sigma_{\epsilon u}
+\end{eqnarray*}
+
+As noted by \citet{reichert2014}, due to the traditional normalization of the variance of the error term necessary for identification in probit models, the parameter $\tau$ is not identifiable.  Furthermore, the traditional \citet{heckman1979} model will lead to consistent estimates, as the resulting error term will also be i.i.d. normal.  However, if heteroskedasticity is present in the outcome equation, the variance of the error term in the selection equation becomes:
+
+\begin{eqnarray*}
+\sigma_{(V_i|X_i)}^2=\tau^2\sigma_{(\epsilon|X_i)}^2 +\sigma_{u}^2 + 2\sigma_{\epsilon u}  \\
+\end{eqnarray*}
+
+\noindent Thus, the heteroskedasticity in the outcome equation carries through to the selection equation.  It is also likely that with heteroskedasticity that the covariance of the error terms could vary, which would lead to the the variance of the selection equation becoming:
+
+\begin{eqnarray*}
+\sigma_{(V_i|X_i)}^2=\tau^2\sigma_{(\epsilon|X_i)}^2 +\sigma_{u}^2 + 2\sigma_{(\epsilon u | X_i)}
+\end{eqnarray*}
+
+These circumstances are not considered by \citet{reichert2014}, but are likely to be common in cross-sectional datasets.  Furthermore, \citet{reichert2014} show that if the outcome matters differently depending on other characteristics (i.e. there are interaction effects between the level of the outcome and some demographic characteristics) then the traditional selection model becomes inconsistent due to heteroskedasticity in the selection equation.  The model considered in their paper is of the form:
+
+\begin{eqnarray*}
+Y_i&=&(\beta'X_i + \epsilon_i)\cdot I(Y^*_i>0) \\
+Y^*_i&=&\gamma'Z_i +\tau Y_i +\lambda Y_iD_i + u_i
+\end{eqnarray*}
+
+\noindent Again replacing $Y_i$ with the RHS of the first equation,
+
+\begin{eqnarray*}
+Y^*_i&=&\gamma'Z_i +\tau(\beta'X_i + \epsilon_i) + \lambda (\beta'X_i + \epsilon_i)D_i + u_i \\
+     &=&\gamma'Z_i +\tau\beta'X_i + \lambda\beta'X_iD_i+((\tau+\lambda D_i)\epsilon_i + u_i)
+\end{eqnarray*}
+
+\noindent The variance of the resulting disturbance term (assuming homoskedasticity of $u$ and $\epsilon$) becomes
+\begin{eqnarray*}
+\sigma_{(V_i|X_i)}^2=(\tau+\lambda D_i)^2\sigma_{\epsilon}^2 +\sigma_{u}^2 + 2(\tau+\lambda D_i)\sigma_{\epsilon u}
+\end{eqnarray*}
+
+
+%\begin{eqnarray*}
+%\sigma_{(V_i|X_i)}^2=(\tau+\lambda D_i)^2\sigma_{\epsilon}^2 +\sigma_{(u|X_i)}^2 + 2(\tau+\lambda D_i)\sigma_{(\epsilon u|X_i)} \\
+%\sigma_{(V_i|X_i)}^2=(\tau+\lambda D_i)^2\sigma_{(\epsilon|X_i)}^2 +\sigma_{u}^2 + 2(\tau+\lambda D_i)\sigma_{(\epsilon u|X_i)} \\
+%\sigma_{(V_i|X_i)}^2=(\tau+\lambda D_i)^2\sigma_{(\epsilon|X_i)}^2 +\sigma_{(u|X_i)}^2 + 2(\tau+\lambda D_i)\sigma_{\epsilon u} \\
+%\sigma_{(V_i|X_i)}^2=(\tau+\lambda D_i)^2\sigma_{(\epsilon|X_i)}^2 +\sigma_{(u|X_i)}^2 + 2(\tau+\lambda D_i)\sigma_{(\epsilon u|X_i)} 
+%\end{eqnarray*}
+
+In order to obtain consistent estimates for this model, \citet{reichert2014} propose a two-stage estimator in which seperate selection equations are estimated for the subgroups identified by the unique combinations of $D_i$.  The second stage utilizes the resulting propensities to construct seperate inverse mills ratios for each group, which are then multiplied by $D_i$ and used in place of dummy variables in a linear regression for the outcome equation.  This results in the following model:
+
+\begin{eqnarray*}
+Y^*_{(i|D_i=1)}&=&(\gamma_{(D_i=1)}'Z_i + u_i)\cdot I(Y^*_i>0, D_i=1) \\
+Y^*_{(i|D_i=0)}&=&(\gamma_{(D_i=0)}'Z_i + u_i)\cdot I(Y^*_i>0, D_i=0) \\
+  Y_i&=&\beta'X_i + E(\epsilon_i|D_i=1) + E(\epsilon_i|D_i=0) + \epsilon_i \\
+  Y_i&=&\beta'X_i + \lambda(\gamma_{(D_i=1)}'Z_i)\cdot I(D_i=1) + \lambda(\gamma_{(D_i=1)}'Z_i)\cdot I(D_i=0) + \epsilon_i
+%  Y_i&=&\beta'X_i + \frac{\phi(-\gamma_{D_i=1}'Z_i)}{\Phi(-\gamma_{D_i=1}'Z_i)}\cdot I(D_i=1) + \frac{\phi(-\gamma_{D_i=0}'Z_i)}{\Phi(-\gamma_{D_i=0}'Z_i)}\cdot I(D_i=0) + \epsilon_i
+\end{eqnarray*}
+
+For each of the three selection mechanisms outlined above, it is possible that there could be heteroskedasticity in the outcome equation, selection equation, or both.\footnote{The model considered by \citet{reichert2014} considers heteroskedasticity only in the selection equation, which stems from the estimation procedure necessitating replacing $Y_i$ with $\beta'X + \epsilon$, and thus does not permit the same level of heterogeneity in the population.}  Maximum Likelihood estimators provide the most efficient estimates, but would rely on the correct specification of both the selection mechanism and any heteroskedasticity.  The following section will use simulations to show the flexibility of Reichert and Tauchmann's two-step estimator relative to those of \citet{heckman1979} and \citet{schaffner2002}. 
+ 
+%\begin{eqnarray*}
+%Y^*_i&=&\gamma'Z_i + u_i \\
+%    \\
+%Y^*_i&=&\gamma'Z_i +\tau Y_i + u_i \\
+%     &=&\gamma'Z_i +\tau(\beta'X_i + \epsilon_i) + u_i \\
+%     \\
+%Y^*_i&=&\gamma'Z_i +\tau Y_i +\lambda Y_iD_i + u_i \\
+%     &=&\gamma'Z_i +\tau(\beta'X_i + \epsilon_i) + \lambda (\beta'X_i + \epsilon_i)D_i + u_i \\
+%     &=&\gamma'Z_i +\tau\beta'X_i + \lambda\beta'X_iD_i+((\tau+\lambda D_i)\epsilon_i + u_i)
+%\end{eqnarray*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Monte Carlo Simulations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Simulations were performed to compare OLS, the FIML and 2-step Heckman estimators, the Schaffner estimator, and the estimator proposed by Reichert \& Tauchmann for the three different selection mechanisms described above. An additional hybrid estimator, combining the approaches of Schaffner and Reichert \& Tauchmann, in which a heteroskedastic probit model in the first stage is combined with multiple inverse mills ratios interacted with the indicator variables in the outcome equation, was also estimated to examine whether the single first stage regression might lead to more efficient estimates.  Simulations were performed with and without the various forms of heteroskedasticity in order to compare the bias and variance of the estimators.  Sample size was also varied in order to get an idea of the consistency of the estimators in each case.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Simulation Methodology}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The outcome equation was the same for each of the specifications:
+
+\begin{eqnarray*}
+Y_i&=&(1 + x_i + D_i + \epsilon_i)\cdot I(Y^*_i>0)
+\end{eqnarray*}
+
+\noindent However, the following three selection equations were considered:
+
+\begin{eqnarray}
+Y^*_i&=& z_i + x_i + D_i + u_i \\
+Y^*_i&=& z_i + x_i + D_i - Y_i + u_i  \\
+Y^*_i&=& z_i + x_i + D_i - Y_i - 0.75Y_iD_i + u_i
+\end{eqnarray}
+
+\noindent Where x and z are distributed U(0,1) and D is distributed Bin(0.5).  The disturbances $\epsilon_i$ and $u_i$ follow a bivariate normal distribution with mean zero.  
+
+In all specifications, the covariance matrix, conditional on $D_i=0$, was:
+
+\[\left( \begin{array}{cc}
+\sigma_{(\epsilon|D_i=0)}^2 & \sigma_{(\epsilon u|D_i=0)} \\
+\sigma_{(\epsilon u|D_i=0)} & \sigma_{(u|D_i=0)}^2  \end{array} \right) 
+=
+\left( \begin{array}{cc}
+1 & .25 \\
+.25 & 1  \end{array} \right)\] 
+
+\noindent Which corresponds to $\rho_{(\epsilon u|D_i=0)}=.25$.  The covariance matrix conditional on $D_i=1$ depended on the case being considered:
+
+Case 1: There is no heterogeneity.
+
+Case 2: Heterogeneity in the Selection Equation
+
+\[\left( \begin{array}{cc}
+\sigma_{(\epsilon|D_i=1)}^2 & \sigma_{(\epsilon u|D_i=1)} \\
+\sigma_{(\epsilon u|D_i=1)} & \sigma_{(u|D_i=1)}^2  \end{array} \right) 
+=
+\left( \begin{array}{cc}
+1 & .75 \\
+.75 & 9  \end{array} \right)\] 
+
+Case 3: Heterogeneity in the Outcome Equation
+
+\[\left( \begin{array}{cc}
+\sigma_{(\epsilon|D_i=1)}^2 & \sigma_{(\epsilon u|D_i=1)} \\
+\sigma_{(\epsilon u|D_i=1)} & \sigma_{(u|D_i=1)}^2  \end{array} \right) 
+=
+\left( \begin{array}{cc}
+9 & .75 \\
+.75 & 1  \end{array} \right)\] 
+
+Case 4: Heteroskedasticity in Both the Selection and Outcome Equations
+
+\[\left( \begin{array}{cc}
+\sigma_{(\epsilon|D_i=1)}^2 & \sigma_{(\epsilon u|D_i=1)} \\
+\sigma_{(\epsilon u|D_i=1)} & \sigma_{(u|D_i=1)}^2  \end{array} \right) 
+=
+\left( \begin{array}{cc}
+9 & 2.25 \\
+2.25 & 9  \end{array} \right)\]
+
+Case 5: Complete Heterogeneity
+
+\[\left( \begin{array}{cc}
+\sigma_{(\epsilon|D_i=1)}^2 & \sigma_{(\epsilon u|D_i=1)} \\
+\sigma_{(\epsilon u|D_i=1)} & \sigma_{(u|D_i=1)}^2  \end{array} \right) 
+=
+\left( \begin{array}{cc}
+4 & -1 \\
+-1 & 2  \end{array} \right)\]
+
+
+In Cases 1-4, the correlation between the error terms is maintained ($\rho_{(\epsilon u|D_i=0)}=\rho_{(\epsilon u|D_i=1)}=.25$), while Case 5 corresponds approximately to $\rho_{(\epsilon u|D_i=1)}=-.35$.
+  
+For each of the 15 possible cases (5 cases for each of the three selection mechanisms), 1000 repetitions were performed using sample sizes of 1000 and 10000, which should help elucidate which estimators are consistent.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Simulation Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The results of the Monte Carlo simulations are provided in Tables 1-12.  Tables 1 \& 2 show the bias of the estimators for 1000 and 10000 observations, respectively, when the first selection mechanism is followed (no dependence on the level of the outcome), while Tables 3 \& 4 show the corresponding standard deviations.  Tables 5 \& 6 show the bias when the  probability of selection depends homogeneously on the outcome, with standard deviations reported in Tables 7 \& 8.  Tables 9-12 show the results that correspond to the model considered by \citet{reichert2014}.  
+
+The results suggest that none of the estimators are superior all the time; however, the overall bias fluctuates considerably more for some of the models depending on the source of heteroskedasticity and the selection equation considered.  Holding the correlation between the unobservables in the outcome and selection equations constant, heteroskedasticity in the outcome equation appears to lead to much larger bias, both in OLS and the Heckman estimators.
+
+
+\begin{table}[htbp]
+\include{het_MC_1k_1bias}
+\include{het_MC_10k_1bias}
+\end{table}
+
+For the first selection mechanism, the bias for the \citet{reichert2014} 2-stage estimator is quite small regardless of the source of heterogeneity.  However, it is also apparent that it is quite inefficient because the sampling distributions have very large standard deviations in some cases.  In contrast to the \citet{heckman1979} maximum likelihood and two-step estimates, it appears to be consistent, as the bias and standard errors become smaller with the increased sample size.  The estimator proposed by \citet{schaffner2002} appears to lead to slightly less bias and more efficient estimates than the other estimators when there is heteroskedasticity in the selection equation, which is not surprising considering this is the context it is meant for.  However, it is clear that the inconsistency of the first-stage probit model leads to much less bias than comparable heteroskedasticity in the outcome equation.  The hybrid model appears to be a viable alternative to the \citet{reichert2014} method for this selection mechanism, as it also leads to approximately unbiased estimates, regardless of the source of heterogeneity; however, the multiple first stage probit regressions appear to be preferable because the hybrid model is not always more efficient, and the average bias of the hybrid model is always slightly larger.  As would be expected, Heckman's maximum likelihood estimator performs poorly when its assumptions are violated.  Confirming results of \citet{fernandez1999}, Heckman's two-step estimator does well when there is heteroskedasticity in the selection equation, despite the fact that the first stage probit model is known to be inconsistent when heteroskedasticity is present.  It is also interesting to note that Heckman's two-step procedure performs well for those regressors not causing heteroskedasticity.
+
+
+\begin{table}[htbp]
+\include{het_MC_1k_1sd}
+\include{het_MC_10k_1sd}
+\end{table}
+
+
+\begin{table}[htbp]
+\include{het_MC_1k_2bias}
+\include{het_MC_10k_2bias}
+\end{table}
+
+For the second selection mechanism, the \citet{reichert2014} model again performs well in the face of heteroskedasticity of all forms, as well as more extreme heterogeneity.  In this specification its inefficiency is even more apparent.  In contrast to the specification without the outcome mattering for selection, the Heckman models perform poorly when there is heteroskedasticity in the selection equation.  Furthermore, when there is heteroskedasticity in the selection equation the model proposed by Schaffner no longer leads to unbiased estimates, while the hybrid model does. In fact, the hybrid model has less bias than the Reichert \& Tauchmann model for some of the cases for this selection mechanism for the smaller sample size, whereas it was always slightly more biased in the previous cases.  It also appears to perform at least as efficiently as the Reichert \& Tauchmann model for variables not contributing to the heteroskedasticity.  However, these improvements, in terms of both bias and efficiency are relatively small.  For variables contributing to heteroskedasticity, the hybrid model is much less efficient than the Reichert \& Tauchmann model, particularly when there is heteroskedasticity in the selection equation.  This could be because with this selection mechanism the error term in the selection equation is a linear combination of homoskedastic and heteroskedastic error terms, which leads to additive rather than multiplicative heteroskedasticity.
+
+\begin{table}[htbp]
+\include{het_MC_1k_2sd}
+\include{het_MC_10k_2sd}
+\end{table}
+
+\begin{table}[htbp]
+\include{het_MC_1k_3bias}
+\include{het_MC_10k_3bias}
+\end{table}
+
+For the final selection mechanism, OLS appears to be more biased than previous selection mechanisms when there is no heteroskedasticity.  Ironically, OLS seems to perform very well in this context when there is heteroskedasticity in the selection mechanism.
+
+\begin{table}[htbp]
+\include{het_MC_1k_3sd}
+\include{het_MC_10k_3sd}
+\end{table}
+
+
+
+\section{Empirical Application}
+
+This section applies the traditional \citet{heckman1979} 2-step estimator with the 2-step estimator proposed by \citet{reichert2014} to account for heterogeneity to empirical data.  The dataset used is the 2009 National Household Travel Survey (NHTS).  
+
+It has been documented that there is likely selection bias present in the estimation of the elasticity of miles driven with respect to the price per mile of driving.  Most empirical analysis of the 2009 NHTS has found elasticities that seem to be unreasonable considering the results obtained from aggregate data.  It is possible that the reason for this is unobserved heterogeneity in the population.
+
+\subsection{Data}
+
+The data used in the analysis comes from a relatively unexplored portion of the NHTS, which is the day trip file.  This file contains seperate observations for each trip made by each person in the households surveyed.  The individual trips were aggregated in order to provide a measure of the total miles driven by each vehicle within the sample on the day of the survey, which spanned 14 months from March 2008 to April 2009.  It is worth mentioning that this was a unique period to collect data, as it was in the midst of the great recession.  Gas prices in this period rose to record highs, over \$4 per gallon, before falling below \$2 a gallon less than six months later.  Since most analyses of the 2009 NHTS ignore this aspect of the data and opt to use the self-reported annual mileage and estimated average annual fuel price, it is likely that their results contain considerable unseen bias.  By using the daily file, it is possible to capture the extreme fluctuations in gas prices, and to control for other unobserved time varying factors, such as the economic outlook, using month dummies.
+
+Each vehicle was classified as either a car or truck depending on the model code.  Model codes above 400 were considered to be trucks, which includes pickups, vans, and large SUVs.  The number of vehicle owners in the dataset, after removing observations with incomplete data and removing any household containing individuals owning more than one vehicle was 109,806.
+
+\subsection{Model}
+
+The model applied is known as a switching regression model, which is essentially when there is selection bias due to self selection into two or more categories, where the outcome variable is only observed for the category selected.  In this case, the subsamples were cars and trucks.  It is likely that unobserved factors could influence a person to purchase either a car or truck, such as distance to work, type of employment (e.g., those employed in construction, agriculture, etc. would be more likely to buy a truck), or family obligations (e.g., taking kids to school or sports practice often).  It is also likely that these unobserved factors could vary depending on the location of residence and type of household.  For example, people in rural areas may be more likely to work in agriculture, have more kids, and work further from home, while those in urban areas may have more access to public transportation and have a greater number of amenities within walking distance.  People in more densely populated areas may also be more sensitive to fuel efficiency because they are more likely to sit idle in traffic.
+
+
+Seperate first-stage probit models were estimated based on 8 seperate classes which were deemed likely to have heterogenous selection bias.  Using the variable hburb, households were classified based on whether they live in the following classifications: Town \& Country, City, Suburb, or Urban.  Since households classified into the Town \& Country category are nearly evenly split between rural and urban classifications, this category was divided further by this classification.  Furthermore, households within Rural Town \& Country, Urban Town \& Country, and City were classified by whether they are of working age or contain retired persons.  Originally, Suburb and Urban were split into seperate groups for retired and working people, but these were not found to significantly alter the results and led to increased variance of the estimator.  Table 13 summarizes the dispersion of the dependent variable for each group.
+
+The model applied to the data has the form:
+
+\begin{eqnarray*}
+\ln(VMT_{Car})_i&=&(\alpha + \beta'X_i +\gamma'D_i + \epsilon_i)\cdot I(Y^*_i>0) \\
+\ln(VMT_{Truck})_i&=&(\alpha + \beta'X_i +\gamma'D_i + \epsilon_i)\cdot I(Y^*_i<0) \\
+Y_i*&=&\zeta'X_i + \eta'Z_i + G(\ln(VMT_{Car}), \ln(VMT_{Truck}), D_i) + u_i
+\end{eqnarray*}
+
+Where the vector $X_i$ contains the natural log of the ratio of the price of fuel to the fuel efficiency of the vehicle ($lnPTD$), the natural log of household income ($lnI$), the age of the driver, and indicator variables for whether the person lives in a rural area and whether the household contains at least one retired person.  Additional controls were the age of the vehicle and dummies for the month and day of week for which the data was recorded.  Additional covariates contained in the vector $Z_i$ include the number of cars and the number of trucks present in the household when the vehicle was purchased, and whether the driver was a male.  Instead of the vehicle age, the vehicle age at time of purchase was used in the selection equation.  The function $G(\ln(VMT_{Car}), \ln(VMT_{Truck}), D_i)$ could include terms of $\ln(VMT_{Car}$, $\ln(VMT_{Truck})$, and interactions between these and $D_i$.  By estimating the seperate first stage regressions, the interactions drop out.
+
+
+\subsection{Regression Results}
+
+The results for the variables of interest of the outcome regression are contained in Table 14.  The \citet{heckman1979} and \citet{reichert2014} estimators both lead to significantly different estimates than the combined and two-part models.  Standard errors for the Reichert \& Tauchmann estimator were obtained by 1000 bootstrap repetitions, as indicated by \dagger.
+%\include{het_empirical}
+
+\begin{table}[htbp]
+\include{het_emp_groups}
+\include{emp_car}
+\include{emp_truck}
+\end{table}
+
+While the \citet{heckman1979} and \citet{reichert2014} estimators agree on the "rebound effect," or elasticity of miles with respect to the price per mile, for cars being around -.13.  For Trucks, however, the \citet{heckman1979} estimator corrects the rebound effect in the opposite direction.  This is likely because there is heterogenous selection bias for trucks depending on the different groups.  For example, those in rural areas and suburbs may be more likely to drive trucks due to work in agriculture or other industries that are less common in urban areas.
+
+While the two-step and \citet{heckman1979} estimators suggests that the income elasticity of miles is larger for cars than trucks, the \citet{reichert2014} estimator suggests that they both larger and of the same magnitude.  Furthermore, the \citet{reichert2014} estimator suggests that the additional miles driven in trucks by households in rural areas is considerably smaller than for cars and as estimated by the other approaches.  This suggests that there is considerably different selection bias for these areas, as would be expected.  In addition, the effect of having retired persons in the home is also suggested to be the same, whereas the other estimators suggest that having retired persons in the household has a larger impact on drivers of cars.
+
+
+%Add a table with estimated coefficients of lambdas in each outcome equation.
+
+\section{Conclusion}
+
+This paper explores the finite sample properties of selection bias correction procedures in the face of different sources of heteroskedasticity and different selection mechanisms.  Traditional approaches, such as the Heckman MLE and 2-step estimators are often used in cross sectional datasets that are likely to have considerable individual heterogeneity, which could be manifest as different selection rules, heteroskedasticity, or both.  This paper suggests that heteroskedasticity in the outcome equation is of particular concern, as the bias of traditional estimator increases much faster in this case than when comparable heteroskedasticity is present in the selection equation.  
+
+The 2-step estimator of \citet{reichert2014} is found to perform very well under all selection processes considered and in the face of heteroskedasticity, regardless of the source.  Potential limitations are that the heteroskedasticity must be groupwise (i.e., it depends on discrete covariates), and that the estimator has large variance in small samples.  Preliminary results suggest that the estimator has desireable asymptotic properties, with rates of convergence approaching $\frac{1}{\sqrt{n}}$.  Future research could compare the efficiency of this estimator to the seldom used semi-parametric approaches that have been proposed in the literature.
+
+Another potentially fruitful endeavor would be to extend the two-step framework of \citet{reichert2014} to the polychotamous choice context.  This is not a trivial endeavor, as most of the instances considered in this paper would likely require a multinomial probit first-stage in order to take advantage of the properties of the normal distribution.  The multinomial probit, however, could potentially lead to even greater ability to capture heterogeneity, as it allows for correlation patterns and heteroskedasticity between selection equations that are much more general than the multinomial logit first stage utilized in most empirical applications.  Such an extension could build off of \citet{glewwe1993}'s proposed extension of the Heckman estimator.
+
+Another potential extension would be to extend the approach of \citet{reichert2014} to allow for heteroskedasticity in the outcome equation that can depend on continuous regressors.  This could be accomplished through a maximum likelihood estimator, similar to the one proposed in their paper.  It may also be possible to discretize the continous variable of interest, or even to utilize classification tools common to machine learning in order to classify groups into latent classes based on the expected variation in the unobservables.
+
+\bigskip
+	\bibliography{Het_Sel}
+\bibliographystyle{plainnat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+
+\end{document}
